@@ -2,12 +2,11 @@
   <div class="footer">
     <div id="line"></div>
     <audio :src="url" controls autoplay></audio>
-    <button @click="action">播放</button>
+    <!-- <button @click="action">播放</button> -->
   </div>
 </template>
 
 <script>
-
 export default {
   data() {
     return {
@@ -17,9 +16,9 @@ export default {
   },
   methods: {
     // 方法
+
     action() {
-      console.log(this.id,111)
-      this.$http.get("/song/url?id="+ this.sid).then((res) => {
+      this.$http.get("/song/url?id=" + this.sid).then((res) => {
         console.log(res, res.data.data[0].url);
         this.url = res.data.data[0].url;
       });
@@ -27,11 +26,10 @@ export default {
   },
   created() {
     // 实例被创建之后执行代码
-
   },
   mounted() {
     // 页面进入时加载内容
-     
+    this.action();
   },
   components: {
     // 组件的引用
@@ -41,9 +39,12 @@ export default {
   },
   watch: {
     // 监测变化
-    listenSid: function (newd) {
-      this.sid = newd
- 
+    listenSid: function (newd, old) {
+      this.sid = newd;
+
+      if (newd != old) {
+        this.action();
+      }
     },
   },
   computed: {

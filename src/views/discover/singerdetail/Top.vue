@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     // 方法
-    ...mapMutations(["setSingerId"]),
+    ...mapActions(["start"]),
     getId() {
       this.id = this.$store.state.id;
     },
@@ -41,8 +41,7 @@ export default {
       });
     },
     dblclick(row) {
-
-      this.setSingerId(row.id);
+      this.start(row.id);
     },
   },
   created() {
@@ -60,7 +59,6 @@ export default {
     // 监测变化
   },
   computed: {
-    
     // 计算属性
   },
 };

@@ -50,24 +50,25 @@
   </el-button> -->
     <el-button type="text" @click="alert" class="login">
       <img class="avatar" :src="login.img" alt="" />
-      <span class="user-name">{{login.p}}</span>
+      <span class="user-name">{{ login.p }}</span>
     </el-button>
 
-    <el-dialog title="请输入手机号和密码" :visible.sync="dialogFormVisible" v-if="flag">
+    <el-dialog
+      title="请输入手机号和密码"
+      :visible.sync="dialogFormVisible"
+      v-if="flag"
+    >
       <el-form :model="form">
-        <el-form-item label="手机号" >
+        <el-form-item label="手机号">
           <el-input v-model="form.username" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="密码" >
+        <el-form-item label="密码">
           <el-input v-model="form.password" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" 
-        @click="submit"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="submit">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -79,11 +80,11 @@ export default {
   name: "Logo",
   data() {
     return {
-      login:{
-        img:'',
-        p:'未登录'
+      login: {
+        img: "",
+        p: "未登录",
       },
-      flag:true,
+      flag: true,
       showHot: false,
       value: "",
       hotlist: [],
@@ -105,38 +106,43 @@ export default {
     };
   },
   methods: {
-    alert(){
-      if(this.login.img){
-         this.dialogFormVisible = false
+    alert() {
+      if (this.login.img) {
+        this.dialogFormVisible = false;
+      } else {
+        this.dialogFormVisible = true;
       }
-      else{
-             this.dialogFormVisible = true
-      }
- 
-      
     },
     ...mapMutations(["setToken"]),
-    getMessage(){
-        this.login.img = JSON.parse(localStorage.getItem('img'))
-        this.login.p = JSON.parse(localStorage.getItem('name'))
+    getMessage() {
+      this.login.img = JSON.parse(localStorage.getItem("img"));
+      this.login.p = JSON.parse(localStorage.getItem("name"));
     },
-    submit(){
+    submit() {
       // if(this.login.img){
       //   this.flag=false
-      // } 
-  
+      // }
 
-      this.dialogFormVisible=false
-      this.$http.get(`/login/cellphone?phone=${this.form.username}&password=${this.form.password}`).then(res=>{
-        this.setToken(res.data.token)
-        // this.=res.data.profile.avatarUrl
-        // this.login.p = res.data.profile.nickname
-        localStorage.setItem('name',JSON.stringify(res.data.profile.nickname) )
-        localStorage.setItem('img',JSON.stringify(res.data.profile.avatarUrl) )
-        
-      })
+      this.dialogFormVisible = false;
+      this.$http
+        .get(
+          `/login/cellphone?phone=${this.form.username}&password=${this.form.password}`
+        )
+        .then((res) => {
+          this.setToken(res.data.token);
+          // this.=res.data.profile.avatarUrl
+          // this.login.p = res.data.profile.nickname
+          localStorage.setItem(
+            "name",
+            JSON.stringify(res.data.profile.nickname)
+          );
+          localStorage.setItem(
+            "img",
+            JSON.stringify(res.data.profile.avatarUrl)
+          );
+        });
     },
-   
+
     left() {
       this.$router.back();
     },
@@ -184,7 +190,7 @@ export default {
   },
   created() {
     this.getHotList();
-    this.getMessage()
+    this.getMessage();
   },
 };
 </script>
